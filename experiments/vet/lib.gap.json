@@ -1,0 +1,129 @@
+{
+  "source": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+  "emitted_items": [
+    "ReadError"
+  ],
+  "gaps": [
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 1,
+      "col": 1,
+      "category": "InnerAttr",
+      "rust_construct": "InnerAttr",
+      "snippet": "# ! [forbid (unsafe_code)]",
+      "reason": "crate/file-level inner attributes (#![...]) are not transpiled (no nodule-header equivalent for these Rust-specific directives)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 31,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use std :: path :: { Path , PathBuf } ;",
+      "reason": "`use std.path::Path` — `std.path` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use std.path::PathBuf` — `std.path` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 33,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" The conventional sentinel that means \\\"read standard input\\\" across the toolchain CLIs.\"] pub const STDIN_SENTINEL : & str = \"-\" ;",
+      "reason": "top-level `const STDIN_SENTINEL` — co-emit (ORACLE-R1 A4) only covers plain unsigned integer types (`u8`/`u16`/`u32`/`u64`/`u128`/`usize`); other types have no const item production and no faithful zero-arg-fn encoding (gap, never fabricate)",
+      "item_name": "STDIN_SENTINEL"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 36,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The error from [`read_source`]: the diagnostic has **already been emitted** to stderr (never-silent,\"] # [doc = \" G2); it carries no payload because there is nothing more to say — the caller's only job is to map it\"] # [doc = \" to *its* exit code (the bins use `66` / `EX_IOERR`). A distinct (non-`()`) type keeps the contract\"] # [doc = \" legible at the call site and satisfies the no-bare-`Result<_, ()>` lint without inventing data.\"] # [derive (Clone , Copy , Debug , PartialEq , Eq)] pub struct ReadError ;",
+      "reason": "struct `ReadError` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "ReadError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 36,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The error from [`read_source`]: the diagnostic has **already been emitted** to stderr (never-silent,\"] # [doc = \" G2); it carries no payload because there is nothing more to say — the caller's only job is to map it\"] # [doc = \" to *its* exit code (the bins use `66` / `EX_IOERR`). A distinct (non-`()`) type keeps the contract\"] # [doc = \" legible at the call site and satisfies the no-bare-`Result<_, ()>` lint without inventing data.\"] # [derive (Clone , Copy , Debug , PartialEq , Eq)] pub struct ReadError ;",
+      "reason": "struct `ReadError` derive(Copy) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "ReadError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 36,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The error from [`read_source`]: the diagnostic has **already been emitted** to stderr (never-silent,\"] # [doc = \" G2); it carries no payload because there is nothing more to say — the caller's only job is to map it\"] # [doc = \" to *its* exit code (the bins use `66` / `EX_IOERR`). A distinct (non-`()`) type keeps the contract\"] # [doc = \" legible at the call site and satisfies the no-bare-`Result<_, ()>` lint without inventing data.\"] # [derive (Clone , Copy , Debug , PartialEq , Eq)] pub struct ReadError ;",
+      "reason": "struct `ReadError` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "ReadError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 43,
+      "col": 1,
+      "category": "MultiStmtBody",
+      "rust_construct": "MultiStmtBody",
+      "snippet": "# [doc = \" Read one source: standard input when `path == \\\"-\\\"`, otherwise the file at `path`.\"] # [doc = \"\"] # [doc = \" **Never-silent (G2).** On any failure this prints a diagnostic to **stderr** — using `prefix` as\"] # [doc = \" the tool tag so the message is byte-identical to what the bin emitted by hand — and returns\"] # [doc = \" [`Err`]`(())`. The caller maps that to its own exit code (the bins use `66` / `EX_IOERR`); this\"] # [doc = \" keeps the *exit-code newtype* (`u8` vs `ExitCode`) at the call site, where it belongs, while the\"] # [doc = \" *I/O and the message* live here once.\"] # [doc = \"\"] # [doc = \" `prefix` is the leading tool tag exactly as the bin wrote it, e.g. `\\\"mycfmt: io-error\\\"` for\"] # [doc = \" `mycfmt`, `\\\"io-error\\\"` (no tool name) for `myc-check`, `\\\"myc-lint: io-error\\\"` for `myc-lint`.\"] # [doc = \" The emitted lines are then, verbatim:\"] # [doc = \" * stdin failure: `\\\"{prefix}: could not read stdin\\\"`\"] # [doc = \" * file failure:  `\\\"{prefix}: {path}: {e}\\\"`\"] # [doc = \"\"] # [doc = \" matching the originals char-for-char.\"] pub fn read_source (prefix : & str , path : & str) -> Result < String , ReadError > { use std :: io :: Read ; if path == STDIN_SENTINEL { let mut s = String :: new () ; if std :: io :: stdin () . read_to_string (& mut s) . is_err () { eprintln ! (\"{prefix}: could not read stdin\") ; return Err (ReadError) ; } Ok (s) } else { std :: fs :: read_to_string (path) . map_err (| e | { eprintln ! (\"{prefix}: {path}: {e}\") ; ReadError }) } }",
+      "reason": "function body contains a nested item declaration (e.g. a local `static`/`const`/`fn`) — this grammar fragment has no local-item production; only simple `let x = e;` bindings plus a trailing expression map",
+      "item_name": "read_source"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 75,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Collect every `.myc` file under `dir`, recursively, **sorted**.\"] # [doc = \"\"] # [doc = \" Deterministic and total over a readable tree: hidden entries (names starting with `.`) and any\"] # [doc = \" `target/` directory are skipped, exactly as the prior `myc-lint` `walk`/`walk_into` and\"] # [doc = \" `myc-sec::collect_myc` did. A directory that cannot be read is an explicit [`Err`] carrying the\"] # [doc = \" `\\\"{path}: {e}\\\"` message the originals produced — **never** a silently-empty walk (G2).\"] # [doc = \"\"] # [doc = \" The returned paths are *relative to / rooted at* `dir` in the same way `read_dir` yields them\"] # [doc = \" (the caller does any `strip_prefix` display work, unchanged).\"] pub fn walk_myc (dir : & Path) -> Result < Vec < PathBuf > , String > { let mut out = Vec :: new () ; walk_into (dir , & mut out) ? ; out . sort () ; Ok (out) }",
+      "reason": "qualified/associated-function call `Vec :: new` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133)",
+      "item_name": "walk_myc"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 91,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "fn walk_into (dir : & Path , out : & mut Vec < PathBuf >) -> Result < () , String > { let entries = std :: fs :: read_dir (dir) . map_err (| e | format ! (\"{}: {e}\" , dir . display ())) ? ; let mut paths : Vec < PathBuf > = entries . filter_map (| e | e . ok () . map (| e | e . path ())) . collect () ; paths . sort () ; for path in paths { let name = path . file_name () . and_then (| s | s . to_str ()) . unwrap_or_default () ; if name . starts_with ('.') || name == \"target\" { continue ; } if path . is_dir () { walk_into (& path , out) ? ; } else if path . extension () . is_some_and (| x | x == \"myc\") { out . push (path) ; } } Ok (()) }",
+      "reason": "unsupported expression form `std :: fs :: read_dir (dir) . map_err (| e | format ! (\"{}: {e}\" , dir . display ())) ?`",
+      "item_name": "walk_into"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 112,
+      "col": 1,
+      "category": "Struct",
+      "rust_construct": "Struct",
+      "snippet": "# [doc = \" A transparent cursor over `std::env::args().skip(1)` that names the one repeated arg-parsing idiom:\"] # [doc = \" \\\"this flag takes a value — consume the next token, or it's a usage error\\\".\"] # [doc = \"\"] # [doc = \" It deliberately does **no** flag interpretation of its own; the bin still owns its `match` over\"] # [doc = \" option names (their option sets differ). This only removes the duplicated\"] # [doc = \" `match args.next() { Some(v) => …, None => return usage() }` boilerplate, behaviour-identically.\"] # [doc = \"\"] # [doc = \" ```\"] # [doc = \" # use mycelium_cli_common::Args;\"] # [doc = \" // The bin's loop keeps full control of which flags exist and what they mean:\"] # [doc = \" let mut args = Args::from_env();\"] # [doc = \" while let Some(tok) = args.next() {\"] # [doc = \"     match tok.as_str() {\"] # [doc = \"         \\\"--config\\\" => match args.value() {\"] # [doc = \"             Some(v) => { /* use v */ let _ = v; }\"] # [doc = \"             None => { /* return usage() */ }\"] # [doc = \"         },\"] # [doc = \"         _ => { /* ... */ }\"] # [doc = \"     }\"] # [doc = \" }\"] # [doc = \" ```\"] pub struct Args { inner : std :: vec :: IntoIter < String > , }",
+      "reason": "struct `Args` has a field type with no confirmed mapping (qualified type path `std :: vec :: IntoIter < String >` — collapsing to its last segment would risk colliding with an unrelated same-named local type (e.g. `std::cmp::Ordering` vs a local `Ordering`); left an explicit gap rather than guessed (VR-5))",
+      "item_name": "Args"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 137,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl Args { # [doc = \" Cursor over the process arguments, skipping `argv[0]` (the program name) — exactly the bins'\"] # [doc = \" `std::env::args().skip(1)`.\"] # [must_use] pub fn from_env () -> Self { Self :: from_args (std :: env :: args () . skip (1)) } # [doc = \" Cursor over an explicit argument list (skips nothing — pass the post-`argv[0]` tokens). Used by\"] # [doc = \" the unit tests and available for callers that already hold a token vector.\"] # [must_use] pub fn from_args < I , S > (args : I) -> Self where I : IntoIterator < Item = S > , S : Into < String > , { let v : Vec < String > = args . into_iter () . map (Into :: into) . collect () ; Self { inner : v . into_iter () , } } # [doc = \" The next raw token, or `None` at the end.\"] # [must_use] # [allow (clippy :: should_implement_trait)] pub fn next (& mut self) -> Option < String > { self . inner . next () } # [doc = \" The **value** for the just-seen value-flag: the next token, or `None` if the flag was last.\"] # [doc = \" `None` is the caller's cue to `return usage()` — byte-identical to the hand-rolled\"] # [doc = \" `match args.next() { Some(v) => …, None => return usage() }`.\"] # [must_use] pub fn value (& mut self) -> Option < String > { self . inner . next () } }",
+      "reason": "no member of this impl block could be transpiled (4 sub-issue(s)): impl method `from_env` body: qualified/associated-function call `Self :: from_args` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133); impl method `from_args` signature: a `where` clause has no Mycelium equivalent; impl method `next` body: method call `.next(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__next` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `next(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered); impl method `value` body: method call `.next(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__next` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `next(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "Args"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-cli-common/src/lib.rs",
+      "line": 175,
+      "col": 1,
+      "category": "TestItem",
+      "rust_construct": "TestItem",
+      "snippet": "# [cfg (test)] mod tests { use super :: * ; use std :: fs ; # [test] fn read_source_reads_a_file () { let dir = tmpdir (\"read-file\") ; let p = dir . join (\"a.myc\") ; fs :: write (& p , \"nodule x\\n\") . unwrap () ; let got = read_source (\"mycfmt: io-error\" , p . to_str () . unwrap ()) ; assert_eq ! (got , Ok (\"nodule x\\n\" . to_owned ())) ; let _ = fs :: remove_dir_all (& dir) ; } # [test] fn read_source_missing_file_is_err_not_silent () { let got = read_source (\"mycfmt: io-error\" , \"definitely/not/here.myc\") ; assert_eq ! (got , Err (ReadError)) ; } # [test] fn stdin_sentinel_is_exactly_dash () { assert_eq ! (STDIN_SENTINEL , \"-\") ; assert_eq ! (read_source (\"io-error\" , \"-stdin-look-alike\") , Err (ReadError)) ; } # [test] fn walk_myc_is_sorted_recursive_and_filters () { let dir = tmpdir (\"walk\") ; fs :: create_dir_all (dir . join (\"sub\")) . unwrap () ; fs :: create_dir_all (dir . join (\"target\")) . unwrap () ; fs :: create_dir_all (dir . join (\".hidden\")) . unwrap () ; fs :: write (dir . join (\"b.myc\") , \"\") . unwrap () ; fs :: write (dir . join (\"a.myc\") , \"\") . unwrap () ; fs :: write (dir . join (\"note.txt\") , \"\") . unwrap () ; fs :: write (dir . join (\"sub/c.myc\") , \"\") . unwrap () ; fs :: write (dir . join (\"target/skip.myc\") , \"\") . unwrap () ; fs :: write (dir . join (\".hidden/skip.myc\") , \"\") . unwrap () ; let got = walk_myc (& dir) . unwrap () ; let rel : Vec < String > = got . iter () . map (| p | { p . strip_prefix (& dir) . unwrap () . to_string_lossy () . replace ('\\\\' , \"/\") }) . collect () ; assert_eq ! (rel , vec ! [\"a.myc\" , \"b.myc\" , \"sub/c.myc\"]) ; let _ = fs :: remove_dir_all (& dir) ; } # [test] fn walk_myc_unreadable_dir_is_err_not_silent () { let got = walk_myc (Path :: new (\"definitely/not/a/dir\")) ; assert ! (got . is_err ()) ; } # [test] fn walk_myc_empty_tree_is_ok_empty () { let dir = tmpdir (\"walk-empty\") ; let got = walk_myc (& dir) . unwrap () ; assert ! (got . is_empty ()) ; let _ = fs :: remove_dir_all (& dir) ; } # [test] fn args_value_consumes_next_token () { let mut a = Args :: from_args ([\"--config\" , \"proj.toml\" , \"file.myc\"]) ; assert_eq ! (a . next () . as_deref () , Some (\"--config\")) ; assert_eq ! (a . value () . as_deref () , Some (\"proj.toml\")) ; assert_eq ! (a . next () . as_deref () , Some (\"file.myc\")) ; assert_eq ! (a . next () , None) ; } # [test] fn args_value_missing_is_none_for_usage () { let mut a = Args :: from_args ([\"--config\"]) ; assert_eq ! (a . next () . as_deref () , Some (\"--config\")) ; assert_eq ! (a . value () , None) ; } fn tmpdir (tag : & str) -> PathBuf { let mut p = std :: env :: temp_dir () ; let nonce = std :: time :: SystemTime :: now () . duration_since (std :: time :: UNIX_EPOCH) . unwrap () . as_nanos () ; p . push (format ! (\"mycelium-cli-common-{tag}-{nonce}\")) ; fs :: create_dir_all (& p) . unwrap () ; p } }",
+      "reason": "#[cfg(test)] item — out of scope for this PoC's transpilation surface (excluded from the expressible-fraction denominator, but recorded, never silently skipped)",
+      "item_name": "tests"
+    }
+  ],
+  "total_top_level_items": 9
+}

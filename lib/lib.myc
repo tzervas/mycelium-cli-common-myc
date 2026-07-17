@@ -1,0 +1,46 @@
+// nodule: cli.common
+// `mycelium-cli-common` (M-643) — the small, **dependency-free** substrate the four toolchain CLIs
+// (`mycfmt` / `myc-check` / `myc-lint` / `myc-sec`) share.
+//
+// The bins had drifted into three near-identical duplications:
+// * a stdin-or-file `read_input` (`mycfmt.rs:144` ≈ `myc-check.rs:177`, char-for-char modulo the
+//   exit-code newtype),
+// * the `.myc` source-walking (`myc-lint.rs:173` `walk`/`walk_into`, `myc-sec`'s `collect_myc`), and
+// * a hand-rolled `env::args().skip(1)` option loop whose every value-flag repeats the
+//   `match args.next() { Some(v) => …, None => return usage() }` idiom.
+//
+// This crate folds those three out into [`read_source`], [`walk_myc`], and [`Args`]. The contract is
+// **behaviour-preservation**: each helper reproduces the bins' observable behaviour byte-for-byte
+// (same files read, same exit-code mapping at the call site, same stderr text — the tool-name prefix
+// is a parameter, never hard-coded). It is **never-silent** (G2): a missing/unreadable input is a
+// reported, structured outcome the caller maps to its existing exit code, never a hidden empty read.
+//
+// ## Honesty / guarantees
+// * `read_source` — **Exact**: a thin, total wrapper over `std::fs`/`std::io`; it cannot silently
+//   succeed on a missing file (the `Err` is surfaced) nor on ambiguous input (`-` is the *only* stdin
+//   sentinel; every other string is a path, exactly as the bins did).
+// * `walk_myc` — **Exact** over the directory it is given: deterministic (sorted), recursive, and it
+//   skips dotfiles and `target/` exactly as the prior `walk`/`collect_myc` did. It does not follow
+//   symlinks beyond what `std::fs::read_dir` + `is_dir()` already did (unchanged from the originals).
+// * `Args` — **Exact**: a transparent cursor over `std::env::args().skip(1)`; it changes *no* parsing
+//   behaviour, it only names the value-flag idiom so the bins stop repeating it.
+//
+// No new external dependency (KC-3): `std` only.
+// @summary: best-effort transpilation via mycelium-transpile (M-873). Declared,
+// unvalidated — no Mycelium parser/typechecker confirms this output; see the
+// accompanying .gap.json for every construct this pass could not express.
+nodule cli.common;
+
+// The error from [`read_source`]: the diagnostic has **already been emitted** to stderr (never-silent,
+// G2); it carries no payload because there is nothing more to say — the caller's only job is to map it
+// to *its* exit code (the bins use `66` / `EX_IOERR`). A distinct (non-`()`) type keeps the contract
+// legible at the call site and satisfies the no-bare-`Result<_, ()>` lint without inventing data.
+type ReadError = ReadError;
+
+impl Show[ReadError] for ReadError {
+  fn render(x: ReadError) => Bytes =
+    "ReadError";
+};
+
+fn eq_ReadError(a: ReadError, b: ReadError) => Binary{1} =
+    0b1;
